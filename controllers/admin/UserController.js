@@ -23,13 +23,25 @@ const UserController = {
   },
   getUserInfo: async (req, res) => {
     try {
-      const token = req.headers.authorization.split(' ')[1]
-      if (token) {
-        const payload = JWT.verifyToken(token)
-        if (payload) {
-          const result = await UserService.getUserInfo(payload.id)
-          res.status(200).json(result)
-        }
+      const { id } = JWT.verifyToken(req)
+      if (id) {
+        const result = await UserService.getUserInfo(id)
+        res.status(200).json(result)
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  },
+  // 更新用户信息
+  update: async (req, res) => {
+    try {
+      const { id } = JWT.verifyToken(req)
+      if (id) {
+        const userAvatar = `/user`
+        const result = await UserService.update(req.body)
+        res.status(200).json(result)
+      } else {
+        res.status(500).json({ message: '用户不存在' })
       }
     } catch (error) {
       res.status(500).json({ message: error.message })

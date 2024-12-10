@@ -12,6 +12,15 @@ const JWT = {
     } catch (error) {
       return false
     }
+  },
+  //获取token解密信息
+  getToken(req) {
+    const token = req.headers.authorization.split(' ')[1]
+    const payload = JWT.verifyToken(token)
+    if (payload) {
+      return payload
+    }
+    return {}
   }
 }
 

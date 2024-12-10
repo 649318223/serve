@@ -12,6 +12,18 @@ const UserService = {
     try {
       return UserModel.findById(id).exec()
     } catch (error) {}
+  },
+  update: async ({ id, userName, userPwd, userAvatar }) => {
+    try {
+      return UserModel.updateOne(
+        { _id: id },
+        {
+          userName,
+          userPwd,
+          userAvatar
+        }
+      )
+    } catch (error) {}
   }
 }
 module.exports = UserService
