@@ -13,7 +13,8 @@ const UserType = {
   userAvatar: String,
   userStatus: Number,
   userCreateTime: Date,
-  userUpdateTime: Date
+  userUpdateTime: Date,
+  desc: String
 }
 const UserModel = mongoose.model('user', new Schema(UserType))
 module.exports = UserModel

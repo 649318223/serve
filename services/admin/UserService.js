@@ -13,13 +13,13 @@ const UserService = {
       return UserModel.findById(id).exec()
     } catch (error) {}
   },
-  update: async ({ id, userName, userPwd, userAvatar }) => {
+  update: async ({ id, userName, desc, userAvatar }) => {
     try {
       return UserModel.updateOne(
         { _id: id },
         {
           userName,
-          userPwd,
+          desc,
           userAvatar
         }
       )

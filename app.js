@@ -28,14 +28,11 @@ app.use((req, res, next) => {
     next()
     return
   }
-  const token = req.headers.authorization.split(' ')[1]
-  if (token) {
-    const payload = JWT.verifyToken(token)
-    if (payload) {
-      next()
-    } else {
-      res.status(401).json({ message: 'token过期' })
-    }
+  const tokenInfo = JWT.getToken(req)
+  if (tokenInfo.userName) {
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'token过期' })
   }
 })
 //admin

@@ -13,9 +13,9 @@ const UserController = {
           userName: result[0].userName
         })
         res.header('Authorization', token)
-        res.status(200).json({ message: '登录成功' })
+        res.status(200).json({ message: '登录成功', status: 200 })
       } else {
-        res.status(500).json({ message: '用户名或密码错误' })
+        res.status(500).json({ message: '用户名或密码错误', status: 500 })
       }
     } catch (error) {
       res.status(500).json({ message: error.message })
@@ -23,7 +23,7 @@ const UserController = {
   },
   getUserInfo: async (req, res) => {
     try {
-      const { id } = JWT.verifyToken(req)
+      const { id } = JWT.getToken(req)
       if (id) {
         const result = await UserService.getUserInfo(id)
         res.status(200).json(result)
@@ -35,11 +35,16 @@ const UserController = {
   // 更新用户信息
   update: async (req, res) => {
     try {
-      const { id } = JWT.verifyToken(req)
+      const { id } = JWT.getToken(req)
       if (id) {
-        const userAvatar = `/user`
-        const result = await UserService.update(req.body)
-        res.status(200).json(result)
+        const { userName, desc, userAvatar } = req.body
+        const result = await UserService.update({
+          id,
+          userName,
+          desc,
+          userAvatar: `/user/${req.file.filename}`
+        })
+        res.status(200).json({ status: 200, message: '更新成功' })
       } else {
         res.status(500).json({ message: '用户不存在' })
       }
