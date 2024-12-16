@@ -26,7 +26,7 @@ const UserController = {
       const { id } = JWT.getToken(req)
       if (id) {
         const result = await UserService.getUserInfo(id)
-        res.status(200).json(result)
+        res.status(200).json({ message: '成功', status: 200, data: result })
       }
     } catch (error) {
       res.status(500).json({ message: error.message })
