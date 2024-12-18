@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
 const JWT = require('./utils/jwt')
 const UserRoter = require('./routes/admin/UserRouter')
+const PublicRoter = require('./routes/public')
 var app = express()
 
 // view engine setup
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 //admin
 // console.log(UserRoter)
 app.use(UserRoter)
+app.use(PublicRoter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
