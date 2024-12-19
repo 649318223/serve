@@ -24,6 +24,14 @@ const UserService = {
         }
       )
     } catch (error) {}
+  },
+  //查找用户信息
+  findUsernInfo: data => {
+    return UserModel.find(data)
+  },
+  //添加用户信息
+  addUser: async data => {
+    return UserModel.create(data)
   }
 }
 module.exports = UserService

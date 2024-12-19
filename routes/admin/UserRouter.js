@@ -10,6 +10,8 @@ UserRoter.post('/admin/user/login', UserController.login)
 UserRoter.get('/admin/user/getUserInfo', UserController.getUserInfo)
 // 更新用户信息
 UserRoter.post('/admin/user/update', upload.single('file'), UserController.update)
+//添加用户信息
+UserRoter.post('/admin/user/addUser', UserController.addUser)
 
 UserRoter.get('/admin/user/token', function (req, res, next) {
   res.status(200).json({ message: '11' })
