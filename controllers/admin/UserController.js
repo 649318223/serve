@@ -55,13 +55,22 @@ const UserController = {
   //添加用户信息
   addUser: async (req, res) => {
     try {
-      const user = await UserService.findUsernInfo({ userName: req.body.userName })
+      const user = await UserService.getList({ userName: req.body.userName })
       if (!user.length) {
         const result = await UserService.addUser(req.body)
         res.status(200).json({ message: '添加成功', status: 200 })
       } else {
         res.status(500).json({ message: '该用户已存在', status: 500 })
       }
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  },
+  //查找用户列表-带查询条件
+  getList: async (req, res) => {
+    try {
+      const result = await UserService.getList()
+      res.status(200).json({ message: '成功', status: 200, data: result })
     } catch (error) {
       res.status(500).json({ message: error.message })
     }

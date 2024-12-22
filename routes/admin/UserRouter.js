@@ -12,6 +12,8 @@ UserRoter.get('/admin/user/getUserInfo', UserController.getUserInfo)
 UserRoter.post('/admin/user/update', upload.single('file'), UserController.update)
 //添加用户信息
 UserRoter.post('/admin/user/addUser', UserController.addUser)
+//获取用户列表
+UserRoter.post('/admin/user/getList', UserController.getList)
 
 UserRoter.get('/admin/user/token', function (req, res, next) {
   res.status(200).json({ message: '11' })

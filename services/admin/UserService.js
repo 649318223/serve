@@ -25,8 +25,8 @@ const UserService = {
       )
     } catch (error) {}
   },
-  //查找用户信息
-  findUsernInfo: data => {
+  //查找用户列表-带查询条件
+  getList: data => {
     return UserModel.find(data)
   },
   //添加用户信息
