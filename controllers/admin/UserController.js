@@ -74,6 +74,19 @@ const UserController = {
     } catch (error) {
       res.status(500).json({ message: error.message })
     }
+  },
+  //删除用户信息
+  delUser: async (req, res) => {
+    try {
+      const result = await UserService.delUser(req.query.id)
+      if (result.deletedCount) {
+        res.status(200).json({ message: '删除成功', status: 200 })
+      } else {
+        res.status(500).json({ message: '删除失败', status: 500 })
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
   }
 }
 module.exports = UserController

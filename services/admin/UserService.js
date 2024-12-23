@@ -27,11 +27,15 @@ const UserService = {
   },
   //查找用户列表-带查询条件
   getList: data => {
-    return UserModel.find(data)
+    return UserModel.find(data, ['userName', 'userPhone', 'desc'])
   },
   //添加用户信息
   addUser: async data => {
     return UserModel.create(data)
+  },
+  //删除用户信息
+  delUser: async _id => {
+    return UserModel.deleteOne({ _id })
   }
 }
 module.exports = UserService
