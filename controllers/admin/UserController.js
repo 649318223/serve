@@ -1,5 +1,6 @@
 const UserService = require('../../services/admin/UserService')
 const JWT = require('../../utils/jwt')
+const { handelPage } = require('../../utils/public')
 
 const UserController = {
   //get all users
@@ -69,8 +70,10 @@ const UserController = {
   //查找用户列表-带查询条件
   getList: async (req, res) => {
     try {
-      const result = await UserService.getList()
-      res.status(200).json({ message: '成功', status: 200, data: result })
+      const pageParams = handelPage(req)
+      const result = await UserService.getList({}, pageParams)
+      const { list, total } = result
+      res.status(200).json({ message: '成功', status: 200, data: list, total })
     } catch (error) {
       res.status(500).json({ message: error.message })
     }

@@ -26,8 +26,14 @@ const UserService = {
     } catch (error) {}
   },
   //查找用户列表-带查询条件
-  getList: data => {
-    return UserModel.find(data, ['userName', 'userPhone', 'desc'])
+  getList: async (data, pageParams) => {
+    if (pageParams) {
+      const total = await UserModel.find(data).countDocuments()
+      const list = await UserModel.find(data, ['userName', 'userPhone', 'desc']).skip(pageParams.skip).limit(pageParams.limit)
+      return { total, list }
+    } else {
+      return UserModel.find(data, ['userName', 'userPhone', 'desc'])
+    }
   },
   //添加用户信息
   addUser: async data => {
