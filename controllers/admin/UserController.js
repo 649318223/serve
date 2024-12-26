@@ -34,21 +34,21 @@ const UserController = {
     }
   },
   // 更新用户信息
-  update: async (req, res) => {
+  updataUser: async (req, res) => {
     try {
-      const { id } = JWT.getToken(req)
-      if (id) {
-        const { userName, desc, userAvatar } = req.body
-        const result = await UserService.update({
-          id,
-          userName,
-          desc,
-          userAvatar: `/user/${req.file.filename}`
-        })
-        res.status(200).json({ status: 200, message: '更新成功' })
-      } else {
-        res.status(500).json({ message: '用户不存在' })
+      const user = await UserService.getList({ _id: req.body.id })
+      if (!user.length) {
+        res.status(500).json({ message: '该用户不存在存在', status: 500 })
+        return
       }
+      const { id, userName, desc, userAvatar } = req.body
+      const result = await UserService.updataUser({
+        id,
+        userName,
+        desc,
+        userAvatar: `/user/${req.file.filename}`
+      })
+      res.status(200).json({ status: 200, message: '更新成功' })
     } catch (error) {
       res.status(500).json({ message: error.message })
     }

@@ -9,7 +9,7 @@ UserRoter.post('/admin/user/login', UserController.login)
 // 获取用户信息
 UserRoter.get('/admin/user/getUserInfo', UserController.getUserInfo)
 // 更新用户信息
-UserRoter.post('/admin/user/update', upload.single('file'), UserController.update)
+UserRoter.post('/admin/user/updataUser', upload.single('file'), UserController.updataUser)
 //添加用户信息
 UserRoter.post('/admin/user/addUser', UserController.addUser)
 //获取用户列表
