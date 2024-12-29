@@ -25,7 +25,8 @@ app.use('/', indexRouter)
 app.use('/users', usersRouter)
 
 app.use((req, res, next) => {
-  if (req.url == '/admin/user/login') {
+  const whiteList = ['/admin/user/login']
+  if (whiteList.includes(req.url)) {
     next()
     return
   }

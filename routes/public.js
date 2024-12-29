@@ -8,7 +8,11 @@ const multer = require('multer')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // 动态构建文件存储路径
-    const uploadDir = path.join('upload', file.fieldname, new Date().toISOString().substring(0, 10))
+    const uploadDir = path.join(
+      'public/upload',
+      file.fieldname,
+      new Date().toISOString().substring(0, 10)
+    )
     // 创建路径（如果不存在）
     fs.mkdir(uploadDir, { recursive: true }, err => {
       if (err) return cb(err)
@@ -17,13 +21,14 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // 生成唯一的文件名
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.fieldname + '-' + Date.now() + '_' + file.originalname)
   }
 })
 const upload = multer({ storage: storage })
 // const upload = multer({ dest: 'public/user' })
 
 PublicRoter.post('/admin/upload', upload.single('file'), (req, res) => {
+  req.file.path = req.file.path.replace('public', '')
   res.status(200).json({ data: req.file, message: '上传成功', status: 200 })
 })
 

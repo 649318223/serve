@@ -41,13 +41,10 @@ const UserController = {
         res.status(500).json({ message: '该用户不存在存在', status: 500 })
         return
       }
-      const { id, userName, desc, userAvatar } = req.body
-      const result = await UserService.updataUser({
-        id,
-        userName,
-        desc,
-        userAvatar: `/user/${req.file.filename}`
-      })
+      const body = { ...req.body }
+      const query = { _id: body.id }
+      delete body.id
+      const result = await UserService.updataUser(query, body)
       res.status(200).json({ status: 200, message: '更新成功' })
     } catch (error) {
       res.status(500).json({ message: error.message })

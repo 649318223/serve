@@ -13,26 +13,19 @@ const UserService = {
       return UserModel.findById(id).exec()
     } catch (error) {}
   },
-  updataUser: async ({ id, userName, desc, userAvatar }) => {
+  updataUser: async (query, body) => {
     try {
-      return UserModel.updateOne(
-        { _id: id },
-        {
-          userName,
-          desc,
-          userAvatar
-        }
-      )
+      return UserModel.updateOne(query, body)
     } catch (error) {}
   },
   //查找用户列表-带查询条件
   getList: async (data, pageParams) => {
     if (pageParams) {
       const total = await UserModel.find(data).countDocuments()
-      const list = await UserModel.find(data, ['userName', 'userPhone', 'desc']).skip(pageParams.skip).limit(pageParams.limit)
+      const list = await UserModel.find(data).skip(pageParams.skip).limit(pageParams.limit)
       return { total, list }
     } else {
-      return UserModel.find(data, ['userName', 'userPhone', 'desc'])
+      return UserModel.find(data)
     }
   },
   //添加用户信息
