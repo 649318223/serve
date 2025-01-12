@@ -4,9 +4,6 @@ var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
-var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
-const JWT = require('./utils/jwt')
 const UserRoter = require('./routes/admin/UserRouter')
 const PublicRoter = require('./routes/public')
 var app = express()
@@ -21,24 +18,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
+//自定义全局中间件校验token
+const checkToken = require('./utils/checkToken')
+app.use(checkToken)
 
-app.use((req, res, next) => {
-  const whiteList = ['/admin/user/login']
-  if (whiteList.includes(req.url)) {
-    next()
-    return
-  }
-  const tokenInfo = JWT.getToken(req)
-  if (tokenInfo.userName) {
-    next()
-  } else {
-    res.status(401).json({ status: 401, message: 'token过期' })
-  }
-})
 //admin
-// console.log(UserRoter)
 app.use(UserRoter)
 app.use(PublicRoter)
 
